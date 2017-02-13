@@ -17,7 +17,6 @@ namespace CoreBlogger
                 .UseIISIntegration()
                 .UseStartup<Startup>()
                 .Build();
-
             host.Run();
         }
     }
