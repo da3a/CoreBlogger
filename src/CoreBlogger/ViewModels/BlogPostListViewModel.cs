@@ -8,8 +8,8 @@ namespace CoreBlogger.ViewModels
 {
     public class BlogPostListViewModel
     {
-        public BlogPostListViewModel Blog;
+        public BlogPostListViewModel Blog { get; set; }
 
-        List<Post> Posts;
+        List<Post> Posts { get; set; }
     }
 }

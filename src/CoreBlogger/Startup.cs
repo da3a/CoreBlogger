@@ -8,6 +8,8 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 using CoreBlogger.Models;
+using Microsoft.Extensions.Configuration;
+using Microsoft.EntityFrameworkCore;
 
 namespace CoreBlogger
 {
@@ -15,10 +17,23 @@ namespace CoreBlogger
     {
         // This method gets called by the runtime. Use this method to add services to the container.
         // For more information on how to configure your application, visit http://go.microsoft.com/fwlink/?LinkID=398940
+
+        public IConfigurationRoot configurationRoot;
+
+        public Startup(IHostingEnvironment hostingEnvironment)
+        {
+
+            configurationRoot = new ConfigurationBuilder()
+                                .SetBasePath(hostingEnvironment.ContentRootPath)
+                                .AddJsonFile("appsettings.json")
+                                .Build();
+        }
+
         public void ConfigureServices(IServiceCollection services)
         {
-            services.AddTransient<IBlogRepository, MockBlogRepository>();
-            services.AddTransient<IPostRepository, MockPostRepository>();
+            services.AddDbContext<CoreBloggerContext>(options => options.UseSqlServer(configurationRoot.GetConnectionString("DefaultConnection")));
+            services.AddTransient<IBlogRepository, BlogRepository>();
+            services.AddTransient<IPostRepository, PostRepository>();
             services.AddMvc();
 
         }
@@ -30,6 +45,8 @@ namespace CoreBlogger
             app.UseStatusCodePages();
             app.UseStaticFiles();
             app.UseMvcWithDefaultRoute();
+
+            DbInitializer.Seed(app);
 
         }
     }

@@ -1,19 +1,16 @@
 ﻿@model IEnumerable<CoreBlogger.Models.Blog>
-<html>
-<head>
-    <meta charset="utf-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>Blog List</title>
 
-</head>
-<body>
+
         @foreach (var blog in Model)
         {
-            <div>
-                <h2>@blog.Title</h2>
-                <h3>@blog.Owner</h3>
-            </div>
-        }
-</body>
-</html>
+            <div class="col-sm-4 col-lg-4 col-md-4">
+                <div class="thumbnail">
+                    <img src="blog.ImageThumbnailUrl" alt="">
+                    <div class="caption">
+                        <h3>
+                            <a>@blog.Title</a>
+                        </h3>
+                        <p>@blog.Owner</p>
+                    </div>
+                </div>
+            </div>        }
